@@ -17,6 +17,8 @@ import openai
 import tempfile
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.schema.document import Document
+from gevent.pywsgi import WSGIServer
+
 # Generate a random hexadecimal string, 24 bytes long
 secret_key = os.urandom(24).hex()
 
@@ -114,4 +116,7 @@ def ai_response_endpoint():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # app.run(debug=True)
+      # Production
+    http_server = WSGIServer(('', 5000), app)
+    http_server.serve_forever()
